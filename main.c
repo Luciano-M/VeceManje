@@ -13,7 +13,7 @@
 
             Vrlo verovatno potrebna modifikacija funkcija za ispis karata
             da primaju argument zeljenog simbola za tacan ispis, umesto
-            nasumicno generisanje svaki put kao sto je trenutno implementirano
+            nasumicnog generisanja svaki put kao sto je trenutno implementirano
 
             Razume se da stanjeIgre[2] i simbolKarte[2] misle na istu kartu
 
@@ -226,13 +226,13 @@ int Provera(char *trenutnoStanje, int *brojOdigranihPoteza)
 
 int main()
 {
-    _setmode(_fileno(stdout), _O_U16TEXT);
-
-    char unos;
+    _setmode(_fileno(stdout), _O_U16TEXT);  // naglasavam da standardni izlaz koristi UTF-16 karaktere za ispis
+                                            // posledica toga je da printf ne radi, i moram koristiti wprintf
+    char unos;                              // tj. wide printf (jer je utf16 "siri" od ascii)
     int vrednostNaredneKarte;
 
     char stanjeIgre[50];
-    wchar_t simboliKarti[50];
+    wchar_t simboliKarti[50];               // dopraviti funkcije da primaju ovaj argument...
     int brojOdigranihPoteza = 0;
 
     IzvlacenjeKarte(stanjeIgre, &brojOdigranihPoteza);  // pocetna karta
@@ -248,29 +248,25 @@ int main()
 
         if(tolower(unos) == 'r')
             Restart(stanjeIgre, &brojOdigranihPoteza);
-        else
-        {
-            if(tolower(unos) == 'w' || tolower(unos) == 's')
-            {
-                IzvlacenjeKarte(stanjeIgre, &brojOdigranihPoteza);
-                PrikaziInformacije(stanjeIgre);
 
-                if(tolower(unos) == 'w')
-                {
-                    if(Provera(stanjeIgre, &brojOdigranihPoteza) == -1)
-                        Poraz(stanjeIgre, &brojOdigranihPoteza);
-                }
-                else if(tolower(unos) == 's')
-                {
-                    if(Provera(stanjeIgre, &brojOdigranihPoteza) == 1)
-                        Poraz(stanjeIgre, &brojOdigranihPoteza);
-                }
-            }
-            else
+        if(tolower(unos) == 'w' || tolower(unos) == 's')
+        {
+            IzvlacenjeKarte(stanjeIgre, &brojOdigranihPoteza);
+            PrikaziInformacije(stanjeIgre);
+
+            if(tolower(unos) == 'w')
             {
-                wprintf(L"\n Nepravilan unos! Pokusajte ponovo.");
+                if(Provera(stanjeIgre, &brojOdigranihPoteza) == -1)
+                    Poraz(stanjeIgre, &brojOdigranihPoteza);
+            }
+            else if(tolower(unos) == 's')
+            {
+                if(Provera(stanjeIgre, &brojOdigranihPoteza) == 1)
+                    Poraz(stanjeIgre, &brojOdigranihPoteza);
             }
         }
+        else
+            wprintf(L"\n Nepravilan unos! Pokusajte ponovo.");
 
         while((getchar())!='\n');   // malo cistimo tastaturni bafer
     }
