@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1670274796 source:c:\users\sk r7 2700x-gtx1660s\documents\codeblocks projects\za klk1\vecemanje\main.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<time.h>
+	<wchar.h>
+	<fcntl.h>
+
