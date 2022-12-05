@@ -20,7 +20,6 @@
     TODO:   IMPLEMENTIRATI BOLJI ALGORITAM ZA GENERISANJE RANDOM BROJEVA
 */
 
-
 void IzvlacenjeKarte(char *trenutnoStanje, int *brojOdigranihPoteza)
 {
     srand(time(NULL));
@@ -233,6 +232,7 @@ int main()
     int vrednostNaredneKarte;
 
     char stanjeIgre[50];
+    wchar_t simboliKarti[50];
     int brojOdigranihPoteza = 0;
 
     IzvlacenjeKarte(stanjeIgre, &brojOdigranihPoteza);  // pocetna karta
